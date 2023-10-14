@@ -6,7 +6,7 @@
 /*   By: laltarri <laltarri@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 16:44:17 by laltarri          #+#    #+#             */
-/*   Updated: 2023/10/14 16:24:57 by laltarri         ###   ########.fr       */
+/*   Updated: 2023/10/14 16:36:49 by laltarri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char *read_file(int fd, char *buffer)
 			free(buffer);
 			return (NULL);
 		}
+		ft_putendl_fd(buffer,i);
 	}
 	return (buffer);
 }
@@ -54,9 +55,8 @@ char *get_next_line(int fd)
 	if (!file || file == -1)
 		printf("ERROR");
 	readfile = get_next_line(file);
-	printf("%d", file);
+	printf("%d\n", file);
 	printf("%d\n", BUFFER_SIZE);
-	printf("%s\n", readfile);
 	close(file);
 	return 0;
 }*/
