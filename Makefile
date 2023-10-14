@@ -6,16 +6,16 @@
 #    By: laltarri <laltarri@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 16:43:24 by laltarri          #+#    #+#              #
-#    Updated: 2023/10/13 16:55:36 by laltarri         ###   ########.fr        #
+#    Updated: 2023/10/14 15:49:42 by laltarri         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 HEADER	=	get_next_line.h
 
-NAME	=	libftprintf.a
+NAME	=	get_next_line.a
 
 SRCS	=	get_next_line.c \
-			get_next_line.utils.c
+			get_next_line_utils.c
 
 OBJS	= 	$(SRCS:.c=.o)
 

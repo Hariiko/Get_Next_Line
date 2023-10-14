@@ -6,7 +6,7 @@
 /*   By: laltarri <laltarri@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 16:45:28 by laltarri          #+#    #+#             */
-/*   Updated: 2023/10/13 19:32:44 by laltarri         ###   ########.fr       */
+/*   Updated: 2023/10/14 15:47:35 by laltarri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,7 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
+
+char *get_next_line(int fd);
 
 #endif
