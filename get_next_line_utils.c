@@ -6,23 +6,19 @@
 /*   By: laltarri <laltarri@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 15:51:13 by laltarri          #+#    #+#             */
-/*   Updated: 2023/10/14 16:42:19 by laltarri         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:58:54 by laltarri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-size_t	ft_strlen(const char *s)
+char	*ft_strchr(const char *s, int c)
 {
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
-
-void    ft_putendl_fd(char *buffer)
-{
-    write(1, buffer,ft_strlen(buffer));
+	while (*s != (char)c && *s != 0)
+		s++;
+	if (*s == (char)c)
+		return ((char *)s);
+	else
+		return (NULL);
+	return (NULL);
 }

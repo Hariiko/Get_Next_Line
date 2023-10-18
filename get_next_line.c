@@ -6,7 +6,7 @@
 /*   By: laltarri <laltarri@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 16:44:17 by laltarri          #+#    #+#             */
-/*   Updated: 2023/10/14 16:36:49 by laltarri         ###   ########.fr       */
+/*   Updated: 2023/10/18 18:26:33 by laltarri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char *read_file(int fd, char *buffer)
 			free(buffer);
 			return (NULL);
 		}
-		ft_putendl_fd(buffer,i);
+//		write(1, "a", 1);
 	}
 	return (buffer);
 }
@@ -40,14 +40,14 @@ char *get_next_line(int fd)
 	
 	if (!fd || BUFFER_SIZE == 0)
 		return (NULL);
-	
-	buffer = read_file(fd, buffer);
+	if(!buffer || (buffer && !ft_strchr(buffer, '\n')))
+		buffer = read_file(fd, buffer);
 	if (!buffer)
 		return (NULL);
 	return (buffer);
 }
-
-/*int main ()
+/*
+int main ()
 {
 	int file;
 	char* readfile;

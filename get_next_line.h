@@ -6,7 +6,7 @@
 /*   By: laltarri <laltarri@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 16:45:28 by laltarri          #+#    #+#             */
-/*   Updated: 2023/10/14 16:34:04 by laltarri         ###   ########.fr       */
+/*   Updated: 2023/10/18 18:03:10 by laltarri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@
 # endif
 
 char	*get_next_line(int fd);
-void	ft_putendl_fd(char *buffer, int i);
+char	*ft_strchr(const char *s, int c);
 
 #endif
