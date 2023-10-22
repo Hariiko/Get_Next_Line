@@ -6,7 +6,7 @@
 /*   By: laltarri <laltarri@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 15:51:13 by laltarri          #+#    #+#             */
-/*   Updated: 2023/10/22 17:36:39 by laltarri         ###   ########.fr       */
+/*   Updated: 2023/10/22 20:16:37 by laltarri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if(!s1)
 	{
-		s1 = malloc(sizeof(char) +1);
+		s1 = malloc(sizeof(char));
 		if(!s1)
 		{
-			free(s1);
-			return (s1);
+//			free(s1);
+			return (NULL);
 		}
 		s1[0] = 0;
 	}
@@ -50,8 +50,22 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[++j])
 		temp[i + j] = s2[j];
 	temp[i + j] = '\0';
-	free(s1);
+	//free(s1);
 	return (temp);
+}
+
+void	*ft_calloc(int quantity, int size)
+{
+	char	*str;
+	int		i;
+
+	i = -1;
+	str = malloc(quantity * size);
+	if (!str)
+		return (NULL);
+	while (++i < quantity * size)
+		str[i] = 0;
+	return (str);
 }
 
 size_t	ft_strlen(char *s)
