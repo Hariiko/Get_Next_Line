@@ -6,25 +6,50 @@
 /*   By: laltarri <laltarri@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 16:44:17 by laltarri          #+#    #+#             */
-/*   Updated: 2023/10/22 20:28:54 by laltarri         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:49:45 by laltarri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char *ft_free(char **storage)
+{
+	if(*storage)
+	{
+		free(*storage);
+		*storage = NULL;
+	}
+	return (NULL);
+}
 char *clean_storage(char *storage)
 {
 	char *ptr;
-
-	ptr = ft_calloc(BUFFER_SIZE + 1, 1);
-	ptr = ft_strchr(storage, '\n');
-//	free (storage);
 	
-	if(*ptr == '\n')
+	if(!storage)
+		return NULL;
+	ptr = ft_calloc(BUFFER_SIZE + 1, 1);
+	if(!ptr)
+		return (NULL);
+	ptr = ft_strchr(storage, '\n');
+	ft_free(&storage);
+	
+	if(ptr && *ptr == '\n')
 		return (++ptr);
 	return (NULL);
 }
 
+char *addBuffer(char *buffer)
+{
+	if(!buffer)
+	{
+		buffer =(char *)malloc(1 * sizeof(char));
+		if(!buffer)
+				return (ft_free(&buffer));
+		buffer[0] = '\0';
+	}
+
+	return (buffer);
+}
 char *extract_line(char *stogare)
 {
 	char	*line;
@@ -32,14 +57,20 @@ char *extract_line(char *stogare)
 	char	*t;
 
 	t = ft_strchr(stogare, '\n');
+	if (!t)
+		return (stogare);
 	i = 1 + ft_strlen(stogare) - ft_strlen(t);
 	line = malloc(i + 1 * sizeof(char)); 
 	if (!line)
+	{
+		free(line);
 		return (NULL);
+	}
 	line[i] = '\0';
 	while(i-- > 0)
 		line[i] = stogare[i];
-	//free(stogare);
+	//if (stogare)
+	free(stogare);
 	return (line);	
 }
 
@@ -48,10 +79,12 @@ char *read_file(int fd, char *storage)
 	int i;
 	char *buffer;
 
-	buffer = malloc(BUFFER_SIZE + 1 * sizeof(char));
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	//buffer = (char *)malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!buffer)
 		return (NULL);
-	buffer[BUFFER_SIZE] = '\0';
+	
+	//buffer[0] = '\0';
 	i = 1;
 
 	while(i > 0 && !ft_strchr(buffer, '\n'))
@@ -62,6 +95,7 @@ char *read_file(int fd, char *storage)
 			free(buffer);
 			return (NULL);
 		}
+		
 		storage = ft_strjoin(storage, buffer);
 	}
 	return (storage);
@@ -85,7 +119,7 @@ char *get_next_line(int fd)
 	return (line);
 }
 
-int main ()
+/*int main ()
 {
 	int file;
 	char *readfile;
@@ -100,4 +134,4 @@ int main ()
 	printf("%d\n", BUFFER_SIZE);
 	close(file);
 	return 0;
-}
+}*/

@@ -6,7 +6,7 @@
 /*   By: laltarri <laltarri@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 16:45:28 by laltarri          #+#    #+#             */
-/*   Updated: 2023/10/22 20:02:09 by laltarri         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:23:59 by laltarri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,7 @@ char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 void	*ft_calloc(int n, int pito);
+char	*ft_free(char **storage);
+char *addBuffer(char *buffer);
 
 #endif
