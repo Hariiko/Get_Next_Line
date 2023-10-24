@@ -13,6 +13,13 @@
 #include <unistd.h>
 #include "get_next_line.h"
 
+char *ft_free(char **storage)
+{
+	free(*storage);
+	*storage = NULL;
+	return (NULL);
+}
+
 char	*ft_strchr(const char *s, int c)
 {
 	while (*s != (char)c && *s != 0)
@@ -20,7 +27,7 @@ char	*ft_strchr(const char *s, int c)
 	if (*s == (char)c)
 		return ((char *)s);
 	else
-		return (NULL);
+		return (0);
 	//return (NULL);
 }
 
@@ -30,19 +37,16 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	if(!s1 && !s2)
-		return (NULL);
-	else if(!s1)
+	//if(!s1 && !s2)
+	//	return (NULL);
+	/*else*/ if(!s1)
 	{
-		s1 = addBuffer(s1);
+		s1 = addBufTYfer(s1);
 	}
-	temp = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
+	temp = malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
 	if(!temp)
-	{
-		ft_free(&s1);
-		return NULL;
+		return (NULL);
 		//return (ft_free(&temp));
-	}
 	j = 0;
 	i = 0;
 	while (s1[i])
@@ -51,7 +55,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2[j])
 		temp[j++] = s2[i++];
 	temp[j] = '\0';
-	ft_free(&s1);
+	//ft_free(&s1);
 	return (temp);
 }
 
@@ -61,7 +65,7 @@ void	*ft_calloc(int quantity, int size)
 	int		i;
 
 	i = -1;
-	str = (char *)malloc(quantity * size);
+	str = malloc(quantity * size);
 	if (!str)
 		return (NULL);
 	while (++i < quantity * size)
@@ -74,8 +78,8 @@ size_t	ft_strlen(char *s)
 	size_t	i;
 
 	i = 0;
-	if (!s)
-		return (0);
+//	if (!s)
+//		return (0);
 	while  (s[i] != '\0')
 		i++;
 	return (i);

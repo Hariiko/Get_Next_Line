@@ -14,13 +14,11 @@
 
 char *ft_free(char **storage)
 {
-	if(*storage)
-	{
-		free(*storage);
-		*storage = NULL;
-	}
+	free(*storage);
+	*storage = NULL;
 	return (NULL);
 }
+
 char *clean_storage(char *storage)
 {
 	char *ptr;
@@ -108,8 +106,8 @@ char *get_next_line(int fd)
 
 	if (!fd || BUFFER_SIZE < 1)
 		return (NULL);
-	if (!storage || (storage && !ft_strchr(storage, '\n')))
-		storage = read_file(fd, storage);
+	//if (!storage || (storage && !ft_strchr(storage, '\n')))
+	storage = read_file(fd, storage);
 	if (!storage)
 		return (NULL);
 	line = extract_line(storage);
