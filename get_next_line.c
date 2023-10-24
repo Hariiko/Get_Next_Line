@@ -12,11 +12,17 @@
 
 #include "get_next_line.h"
 
-char *ft_free(char **storage)
+char *addBuffer(char *buffer)
 {
-	free(*storage);
-	*storage = NULL;
-	return (NULL);
+	if(!buffer)
+	{
+		buffer =(char *)malloc(1 * sizeof(char));
+		if(!buffer)
+				return (ft_free(&buffer));
+		buffer[0] = '\0';
+	}
+
+	return (buffer);
 }
 
 char *clean_storage(char *storage)
@@ -36,18 +42,7 @@ char *clean_storage(char *storage)
 	return (NULL);
 }
 
-char *addBuffer(char *buffer)
-{
-	if(!buffer)
-	{
-		buffer =(char *)malloc(1 * sizeof(char));
-		if(!buffer)
-				return (ft_free(&buffer));
-		buffer[0] = '\0';
-	}
 
-	return (buffer);
-}
 char *extract_line(char *stogare)
 {
 	char	*line;
@@ -88,12 +83,13 @@ char *read_file(int fd, char *storage)
 	while(i > 0 && !ft_strchr(buffer, '\n'))
 	{
 		i = read(fd, buffer, BUFFER_SIZE);	
-		if (i < 1)
+		if(i > 0)
 		{
-			free(buffer);
-			return (NULL);
+			buffer[i] = '\0';
+			buffer = addBuffer(i, buffer);
 		}
-		
+		else if (i < 1)
+			return (ft_free(&buffer));
 		storage = ft_strjoin(storage, buffer);
 	}
 	return (storage);
