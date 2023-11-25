@@ -6,126 +6,126 @@
 /*   By: laltarri <laltarri@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 16:44:17 by laltarri          #+#    #+#             */
-/*   Updated: 2023/10/23 17:49:45 by laltarri         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:16:09 by laltarri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char *addBuffer(char *buffer)
+char	*ft_clean(char *buffer)
 {
-	if(!buffer)
-	{
-		buffer =(char *)malloc(1 * sizeof(char));
-		if(!buffer)
-				return (ft_free(&buffer));
-		buffer[0] = '\0';
-	}
+	char	*ptr;
+	int		numptr;
+	int		i;
 
-	return (buffer);
+	ptr = ft_strchr(buffer, '\n');
+	if (!ptr)
+		return (ft_free(&buffer));
+	numptr = ft_strlen(ptr);
+	i = ft_strlen(buffer);
+	ptr = ft_calloc(numptr + 1, 1);
+	if (!ptr)
+		return (ft_free(&buffer));
+	ptr[numptr] = '\0';
+	while (--numptr >= 0)
+		ptr[numptr] = buffer[i--];
+	ft_free(&buffer);
+	return (ptr);
 }
 
-char *clean_storage(char *storage)
+char	*trim(char	*storage)
 {
-	char *ptr;
-	
-	if(!storage)
-		return NULL;
-	ptr = ft_calloc(BUFFER_SIZE + 1, 1);
-	if(!ptr)
-		return (NULL);
-	ptr = ft_strchr(storage, '\n');
-	ft_free(&storage);
-	
-	if(ptr && *ptr == '\n')
-		return (++ptr);
-	return (NULL);
-}
-
-
-char *extract_line(char *stogare)
-{
-	char	*line;
 	int		i;
 	char	*t;
 
-	t = ft_strchr(stogare, '\n');
-	if (!t)
-		return (stogare);
-	i = 1 + ft_strlen(stogare) - ft_strlen(t);
-	line = malloc(i + 1 * sizeof(char)); 
-	if (!line)
-	{
-		free(line);
+	if (!storage || !*storage)
 		return (NULL);
-	}
-	line[i] = '\0';
-	while(i-- > 0)
-		line[i] = stogare[i];
-	//if (stogare)
-	free(stogare);
-	return (line);	
+	i = 0;
+	while (storage[i] != '\0' && storage[i] != '\n')
+		i++;
+	if (storage[i] == '\n')
+		i++;
+	t = malloc(i + 1);
+	if (!t)
+		return (NULL);
+	t[i] = '\0';
+	while (--i >= 0)
+		t[i] = storage[i];
+	return (t);
 }
 
-char *read_file(int fd, char *storage)
+char	*ft_add_buffer(char *buffer)
 {
-	int i;
-	char *buffer;
-
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	//buffer = (char *)malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!buffer)
-		return (NULL);
-	
-	//buffer[0] = '\0';
-	i = 1;
-
-	while(i > 0 && !ft_strchr(buffer, '\n'))
 	{
-		i = read(fd, buffer, BUFFER_SIZE);	
-		if(i > 0)
-		{
-			buffer[i] = '\0';
-			buffer = addBuffer(i, buffer);
-		}
-		else if (i < 1)
+		buffer = ft_calloc(1, 1);
+		if (!buffer)
 			return (ft_free(&buffer));
+	}
+	return (buffer);
+}
+
+char	*fill_storage(int fd, char *storage)
+{
+	char	*buffer;
+	int		nread;
+
+	nread = 1;
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+	{
+		return (ft_free(&storage));
+	}
+	buffer[0] = '\0';
+	while (nread > 0 && !ft_strchr(buffer, '\n'))
+	{
+		nread = read(fd, buffer, BUFFER_SIZE);
+		if (nread < 0)
+		{
+			free (buffer);
+			return (ft_free(&storage));
+		}
+		buffer[nread] = '\0';
 		storage = ft_strjoin(storage, buffer);
 	}
+	free (buffer);
 	return (storage);
 }
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static char *storage = NULL;	
-	char 		*line = NULL;
+	static char	*storage = NULL;
+	char		*line;
 
-	if (!fd || BUFFER_SIZE < 1)
+	line = NULL;
+	if (fd < 0 || BUFFER_SIZE < 1)
 		return (NULL);
-	//if (!storage || (storage && !ft_strchr(storage, '\n')))
-	storage = read_file(fd, storage);
+	if (!storage || (storage && !ft_strchr(storage, '\n')))
+		storage = fill_storage(fd, storage);
 	if (!storage)
 		return (NULL);
-	line = extract_line(storage);
+	line = trim(storage);
 	if (!line)
-		return(NULL);
-	storage = clean_storage(storage);
+		return (ft_free(&storage));
+	storage = ft_clean(storage);
 	return (line);
 }
 
-/*int main ()
-{
-	int file;
-	char *readfile;
-	file = open("test.txt", O_RDONLY);
-	if (!file || file == -1)
-		printf("ERROR");
-	readfile = get_next_line(file);
-	printf("%s", readfile);
-	readfile = get_next_line(file);
-	printf("%s", readfile);
-	printf("%d\n", file);
-	printf("%d\n", BUFFER_SIZE);
-	close(file);
-	return 0;
+/*int main() {
+    int file;
+    char *readfile;
+
+    file = open("test.txt", O_RDONLY);
+
+    if (file == -1) {
+        perror("Error al abrir el archivo");
+        return 1;
+    }
+    while ((readfile = get_next_line(file)) != NULL) {
+		printf("Línea leída:%s:\n", readfile);
+        free(readfile);
+   }
+    close(file);
+
+    return 0;
 }*/
